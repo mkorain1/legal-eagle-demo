@@ -1,0 +1,133 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "cd3bdc96-b28f-4360-a073-3736acda3d4f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "2024-07-29 14:36:02.030 \n",
+      "  \u001b[33m\u001b[1mWarning:\u001b[0m to view this Streamlit app on a browser, run it with the following\n",
+      "  command:\n",
+      "\n",
+      "    streamlit run C:\\Users\\mkorain\\AppData\\Roaming\\Python\\Python312\\site-packages\\ipykernel_launcher.py [ARGUMENTS]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import streamlit as st\n",
+    "\n",
+    "import openai\n",
+    "\n",
+    "\n",
+    "\n",
+    "openai.api_type = \"azure\"\n",
+    "openai.api_base = \"https://southindia.api.cognitive.microsoft.com/\"\n",
+    "openai.api_key = \"aa7b5560ff9949f2bf4c2215df57d950\"\n",
+    "openai.api_version = \"2024-02-15-preview\"\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    " \n",
+    "# Set up OpenAI API key\n",
+    "\n",
+    "\n",
+    "def get_contract_answer(question):\n",
+    "\n",
+    "    # Simulate the contract content\n",
+    "\n",
+    "    contract_text = \"\"\"\n",
+    "\n",
+    "    This is a sample retail rent contract. It contains various clauses including an exit clause.\n",
+    "\n",
+    "    Exit Clause: The tenant may terminate this lease by providing a written notice at least 60 days in advance. \n",
+    "\n",
+    "    Upon termination, the tenant is responsible for paying rent for the remainder of the notice period.\n",
+    "\n",
+    "    \"\"\"\n",
+    " \n",
+    "    # Formulate the prompt\n",
+    "\n",
+    "    prompt = f\"Given the following contract: {contract_text}\\n\\nQuestion: {question}\\n\\nAnswer:\"\n",
+    " \n",
+    "    # Call OpenAI's GPT-4\n",
+    "\n",
+    "    response = openai.Completion.create(\n",
+    "\n",
+    "        engine=\"text-davinci-003\",\n",
+    "\n",
+    "        prompt=prompt,\n",
+    "\n",
+    "        max_tokens=150,\n",
+    "\n",
+    "        temperature=0.5\n",
+    "\n",
+    "    )\n",
+    " \n",
+    "    answer = response.choices[0].text.strip()\n",
+    "\n",
+    "    return answer\n",
+    " \n",
+    "st.title(\"LegalEagle Agent Demo\")\n",
+    "\n",
+    "st.write(\"Upload a contract or use the sample contract provided to ask questions about exit clauses.\")\n",
+    " \n",
+    "# No actual file upload, using a predefined contract text\n",
+    "\n",
+    "st.write(\"Sample Contract: This is a sample retail rent contract. It contains various clauses including an exit clause. Exit Clause: The tenant may terminate this lease by providing a written notice at least 60 days in advance. Upon termination, the tenant is responsible for paying rent for the remainder of the notice period.\")\n",
+    " \n",
+    "question = st.text_input(\"Enter your question about the exit clause:\")\n",
+    " \n",
+    "if st.button(\"Get Answer\"):\n",
+    "\n",
+    "    if question:\n",
+    "\n",
+    "        answer = get_contract_answer(question)\n",
+    "\n",
+    "        st.write(\"Answer:\")\n",
+    "\n",
+    "        st.write(answer)\n",
+    "\n",
+    "    else:\n",
+    "\n",
+    "        st.write(\"Please enter a question.\")\n",
+    " \n",
+    " "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5a189b83-ea62-42ad-ba2e-6e5663ada1ae",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
